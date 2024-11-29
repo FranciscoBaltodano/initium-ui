@@ -149,14 +149,3 @@ export default function Home() {
     </div>
   );
 }
-
-// 'use client';
-// import { useParams } from "next/navigation";
-// export default function Home() {
-//     const {id} = useParams();
-//     return (
-//         <div className="flex flex-col min-h-screen w-full p-10">
-//             {id ? id : <>loading</>}
-//         </div>
-//     );
-// }
