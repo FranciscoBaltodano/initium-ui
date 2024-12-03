@@ -195,7 +195,7 @@ export const Header = () => {
          Make cards for every occasion. 
          Your cards are designed to live forever,
          combining modern aesthetics with user-focused functionality.  
-         We ensure each card is not only visually striking but also secure. 
+         We ensure each card is not only visually striking but also secure. 0.0.4
        </p>
   </motion.div>
   );

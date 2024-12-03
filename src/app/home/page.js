@@ -18,20 +18,24 @@ export default function Home() {
     const momentStart = moment(startDate);
     const momentEnd = moment(endDate);
   
-    const months = momentStart.diff(momentEnd, "months");
+    const months = momentEnd.diff(momentStart, "months");
     if (months > 0) return `${months} months since account activation`;
   
-    const days = momentStart.diff(momentEnd, "days");
+    const days = momentEnd.diff(momentStart, "days");
     if (days > 0) return `${days} days since account activation`;
   
-    const hours = momentStart.diff(momentEnd, "hours");
+    const hours = momentEnd.diff(momentStart, "hours");
     if (hours > 0) return `${hours} hours since account activation`;
   
-    const minutes = momentStart.diff(momentEnd, "minutes");
+    const minutes = momentEnd.diff(momentStart, "minutes");
     if (minutes > 0) return `${minutes} minutes since account activation`;
+
+    const seconds = momentEnd.diff(momentStart, "seconds");
+    if (seconds > 0) return `${seconds} seconds since account activation`;
   
     return "No hay diferencia";
   };
+  
 
   useEffect(() => {
     const fetchUserTime = async () => {
@@ -40,7 +44,7 @@ export default function Home() {
         updateUser(userData);
         
         const activationDate = new Date(userData.updated_at);
-        const currentDate = new Date();
+        const currentDate = new Date(userData.get_time);
         const difference = formatTimeDifference(activationDate, currentDate);
         setDifference(difference);
       } catch (error) {
@@ -55,7 +59,7 @@ export default function Home() {
     };
 
     fetchUserTime();
-  }, [router, updateUser]);
+  }, []);
 
   if (isLoading) return(<Loader/>)
   if (!user) { return <div>Please log in</div> }
