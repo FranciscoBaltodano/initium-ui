@@ -2,17 +2,22 @@
 
 import { Loader } from '@/components/ui/loader';
 import { useUser } from '@/context/userContext';
-import { GetUserInfo } from '@/services/users';
+import { getCategories, GetUserInfo } from '@/services/users';
 import { motion } from "framer-motion";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
+import Categories from '@/components/graphql/categories';
+import EventDetails from '@/components/graphql/eventDetails';
 
 export default function Home() {
   const { user, updateUser } = useUser();
   const [difference, setDifference] = useState();
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter();
+  const [categories, setCategories] = useState([]);
+
+  
 
   const formatTimeDifference = (startDate, endDate) => {
     const momentStart = moment(startDate);
@@ -58,28 +63,43 @@ export default function Home() {
       }
     };
 
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories(localStorage.getItem("userToken"));
+        setCategories(data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    }
+
     fetchUserTime();
+    fetchCategories();
   }, []);
 
   if (isLoading) return(<Loader/>)
   if (!user) { return <div>Please log in</div> }
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <motion.h1
-        initial={{ opacity: 0.5, y: 100 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{
-          delay: 0.3,
-          duration: 0.8,
-          ease: "easeInOut",
-        }}
-        className="bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
-      >
-        Welcome {user?.firstname} {user?.lastname}
-        <br />
-        <p className="text-2xl">{difference}</p>
-      </motion.h1>
-    </div>
+    <>
+      <div className="h-screen flex items-center justify-center">
+        <motion.h1
+          initial={{ opacity: 0.5, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 0.3,
+            duration: 0.8,
+            ease: "easeInOut",
+          }}
+          className="bg-gradient-to-br from-slate-300 to-slate-500 py-4 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-7xl"
+        >
+          Welcome {user?.firstname} {user?.lastname}
+          <br />
+          <p className="text-2xl">{difference}</p>
+        </motion.h1>
+      </div>
+      
+      <Categories />
+      <EventDetails />
+    </>
   );
 }

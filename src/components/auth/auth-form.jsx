@@ -108,7 +108,7 @@ export function AuthForm({isLogin=true}) {
         {isLogin ? "Login" : "Sign Up"} to INITIUM
       </h2>
       <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-        Login to make stunning cards for every occasion.
+        Login to make stunning events for every occasion.
       </p>
         
       <div className=" bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />

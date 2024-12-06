@@ -1,5 +1,5 @@
-import { useRouter } from "next/navigation";
-import { domain } from "./settings";
+import { gql, GraphQLClient } from "graphql-request";
+import { domain, domainGraphql } from "./settings";
 
 export async function GetUserInfo(token) {
     const response = await fetch(`${domain}/user`, {
@@ -84,3 +84,65 @@ export async function Register(userRegistration){
     return data;
 }
 
+const createGraphQLClient = (token) => {
+    return new GraphQLClient(domainGraphql, {
+      headers: token ? {
+        Authorization: `Bearer ${token}`,
+      } : {},
+    });
+  };
+
+export const getCategories = async(token) => {
+    const client = createGraphQLClient(token);
+    const query = `
+    query {
+        categories {
+            id
+            name
+        }
+    }
+    `;
+    try{
+    const data = await client.request(query);
+    return data.categories;
+    } catch (error) {
+        throw new Error('Get categories failed');
+    }
+}
+
+export const getEventDetails = async(token) => {
+    const client = createGraphQLClient(token);
+    const query = `
+    query {
+      events {
+        id
+        title
+        description
+        date_start
+        date_end
+        categories {
+          id
+          category {
+            name  
+          }
+        }
+        feedbacks {
+          id
+          rating
+          comments 
+          feedback_date
+          user {
+            firstname
+            lastname
+          }
+        }
+      }
+    }
+    `;
+    try{
+    const data = await client.request(query);
+    return data.events;
+    } catch (error) {
+        throw new Error('Get event details failed');
+    }
+}

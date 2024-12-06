@@ -189,13 +189,13 @@ export const Header = () => {
             INITIUM
             <GitCompare className="inline-block size-24 md:ml-10 md:size-40" />
           </div>
-           The web for stunning cards.
+           The web for stunning events.
        </h1>
        <p className="max-w-2xl text-base md:text-xl mt-8 dark:text-neutral-200">
-         Make cards for every occasion. 
-         Your cards are designed to live forever,
+         Make events for every occasion. 
+         Your events are designed to live forever,
          combining modern aesthetics with user-focused functionality.  
-         We ensure each card is not only visually striking but also secure. 0.0.4
+         We ensure each event is not only visually striking but also secure.
        </p>
   </motion.div>
   );
